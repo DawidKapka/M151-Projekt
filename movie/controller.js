@@ -3,7 +3,7 @@ import { render } from './view.js';
 import { render as form } from './form.js';
 
 export async function listAction(request, response) {
-  const data = await getAll();
+  const data = await getAll(request.user.id);
   const body = render(data, request.user);
   response.send(body);
 }
@@ -15,7 +15,8 @@ export async function removeAction(request, response) {
 }
 
 export async function formAction(request, response) {
-  let movie = { id: '', title: '', year: '' };
+  let movie = { id: '', title: '', year: '', public: '' };
+  console.log(request.params.id);
 
   if (request.params.id) {
     movie = await get(parseInt(request.params.id, 10));
@@ -29,7 +30,8 @@ export async function saveAction(request, response) {
     id: request.body.id,
     title: request.body.title,
     year: request.body.year,
+    public: request.body.public === '1' ? 1 : 0,
   };
-  await save(movie);
+  await save(movie, request.user.id);
   response.redirect(request.baseUrl);
 }

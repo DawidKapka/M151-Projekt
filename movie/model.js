@@ -9,39 +9,51 @@ const connection = await mysql.createConnection({
 
 await connection.connect();
 
-export async function getAll() {
-  const query = 'SELECT * FROM Movies';
-  const [data] = await connection.query(query);
+export async function getAll(userId) {
+  const query = 'SELECT * FROM Movies WHERE user = ? OR public = 1';
+  const [data] = await connection.query(query, [userId]);
   return data;
 }
 
-async function insert(movie) {
-  const query = 'INSERT INTO Movies (title, year) VALUES (?, ?)';
-  const [result] = await connection.query(query, [movie.title, movie.year]);
-  return { ...movie, id: result.insertId };
+async function insert(movie, userId) {
+  const query = 'INSERT INTO Movies (title, year, public, user) VALUES (?, ?, ?, ?)';
+  const [result] = await connection.query(query, [
+    movie.title,
+    movie.year,
+    movie.public,
+    userId,
+  ]);  return { ...movie, id: result.insertId };
 }
 
-async function update(movie) {
-  const query = 'UPDATE Movies SET title = ?, year = ? WHERE id = ?';
-  await connection.query(query, [movie.title, movie.year, movie.id]);
+async function update(movie, userId) {
+  const query = 'UPDATE Movies SET title = ?, year = ?, public = ?, user = ? WHERE id = ?';
+  await connection.query(query, [
+    movie.title,
+    movie.year,
+    movie.public,
+    userId,
+    movie.id,
+  ]);
   return movie;
 }
 
-export async function get(id) {
-  const query = 'SELECT * FROM Movies WHERE id = ?';
-  const [data] = await connection.query(query, [id]);
+
+export async function get(id, userId) {
+  const query = 'SELECT * FROM Movies WHERE id = ? AND (user = ? OR public = 1)';
+  console.log(userId);
+  const [data] = await connection.query(query, [id, userId]);
   return data.pop();
 }
 
-export async function remove(id) {
-  const query = 'DELETE FROM Movies WHERE id = ?';
-  await connection.query(query, [id]);
+export async function remove(id, userId) {
+  const query = 'DELETE FROM Movies WHERE id = ? AND (user = ? OR public = 1)';
+  await connection.query(query, [id, userId]);
   return;
 }
 
-export function save(movie) {
+export function save(movie, userId) {
   if (movie.id) {
-    return update(movie);
+    return update(movie, userId);
   }
-  return insert(movie);
+  return insert(movie, userId);
 }
