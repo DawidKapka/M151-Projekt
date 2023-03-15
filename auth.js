@@ -4,7 +4,7 @@ import LocalStrategy from 'passport-local';
 import { createHash } from 'crypto';
 import { get } from './user/model.js';
 
-export default function (app) {
+export default  function (app) {
   //Umwandlung eines Objekt in einen Bytestrom
   passport.serializeUser((user, done) => done(null, user.id));
 
