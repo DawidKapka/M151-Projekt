@@ -35,3 +35,11 @@ export async function saveAction(request, response) {
   await save(movie, request.user.id);
   response.redirect(request.baseUrl);
 }
+
+export async function rateAction(request, response) {
+  request.redirect(request.baseUrl)
+}
+
+export async function ratingsAction(request, response) {
+  response.send();
+}
