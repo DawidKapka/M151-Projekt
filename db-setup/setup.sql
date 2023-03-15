@@ -29,3 +29,6 @@ CREATE TABLE `Users` (
 );
 INSERT INTO Users (username, firstname, lastname, password) VALUES
 ('test', 'Test', 'Test', '098f6bcd4621d373cade4e832627b4f6');
+
+ALTER TABLE `Movies` ADD user INTEGER;
+ALTER TABLE `Movies` ADD public INTEGER;
