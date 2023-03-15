@@ -27,6 +27,12 @@ CREATE TABLE `Users` (
   password VARCHAR(255) DEFAULT NULL,
   PRIMARY KEY (id)
 );
+
+CREATE TABLE `Ratings` (
+user INTEGER,
+movie INTEGER,
+rating INTEGER);
+
 INSERT INTO Users (username, firstname, lastname, password) VALUES
 ('test', 'Test', 'Test', '098f6bcd4621d373cade4e832627b4f6');
 
