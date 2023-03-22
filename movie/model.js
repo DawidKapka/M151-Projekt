@@ -1,7 +1,7 @@
 import mysql from 'mysql2/promise';
 
 const connection = await mysql.createConnection({
-  host: '127.0.0.1',
+  host: 'localhost',
   user: 'root',
   password: 'sml12345',
   database: 'movie-db',
@@ -61,4 +61,25 @@ export function save(movie, userId) {
 export async function saveRating(movieId, movieRating) {
   const query = 'INSERT INTO Ratings(movie, rating) VALUES (?, ?)';
   await connection.query(query, [movieId, movieRating]);
+}
+
+export async function getAllRatings(userId) {
+  const query = `SELECT * FROM Ratings WHERE user = ?`;
+  return [await connection.query(query, [userId])];
+}
+
+export async function getRatingAverages(movies) {
+  const averages = [];
+  for (let movie of movies) {
+    const average = await getAverageForMovie(movie.id)
+    if (average.average) {
+      averages.push({movie: movie.id, average: average.average})
+    }
+  }
+  return averages;
+}
+
+async function getAverageForMovie(movieId) {
+  const query = 'SELECT AVG(rating) FROM Ratings WHERE movie = ?'
+  return [await connection.query(query, [movieId])];
 }

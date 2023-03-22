@@ -1,11 +1,12 @@
-import {getAll, remove, get, save, saveRating} from './model.js';
+import {getAll, remove, get, save, saveRating, getALlRatings, getRatingAverages} from './model.js';
 import { render } from './view.js';
 import { render as form } from './form.js';
 
 export async function listAction(request, response) {
-  console.log('list')
   const data = await getAll(request.user.id);
-  const body = render(data, request.user);
+  const ratings = await getAllRatings(request.user.id);
+  const ratingAverages = await getRatingAverages(data);
+  const body = render(data, request.user, ratings, ratingAverages);
   response.send(body);
 }
 
