@@ -1,4 +1,4 @@
-import {getAll, remove, get, save, saveRating, getALlRatings, getRatingAverages} from './model.js';
+import {getAll, remove, get, save, saveRating, getAllRatings, getRatingAverages} from './model.js';
 import { render } from './view.js';
 import { render as form } from './form.js';
 
