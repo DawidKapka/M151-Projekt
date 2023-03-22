@@ -15,3 +15,11 @@ td {
 tbody tr:hover {
   background-color: lightgrey;
 }
+
+.rating {
+  cursor: pointer;
+}
+
+.rating:hover {
+  color: rgba(0, 0, 0, 0.5);
+}

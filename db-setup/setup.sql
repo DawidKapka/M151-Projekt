@@ -38,3 +38,5 @@ INSERT INTO Users (username, firstname, lastname, password) VALUES
 
 ALTER TABLE `Movies` ADD user INTEGER;
 ALTER TABLE `Movies` ADD public INTEGER;
+
+UPDATE `Movies` SET user = 1;

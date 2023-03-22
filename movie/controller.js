@@ -3,6 +3,7 @@ import { render } from './view.js';
 import { render as form } from './form.js';
 
 export async function listAction(request, response) {
+  console.log('list')
   const data = await getAll(request.user.id);
   const body = render(data, request.user);
   response.send(body);

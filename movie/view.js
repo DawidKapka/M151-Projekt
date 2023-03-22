@@ -1,3 +1,15 @@
+const createStars = (id, rating) => {
+    let stars = `<div>`
+    for (let i = 0; i < 5; i++) {
+        if (i < rating) {
+            stars += `<a class="rating" onclick="submitRating(${id}, ${i + 1})" >✭</a>`;
+        } else {
+            stars += `<a class="rating" onclick="submitRating(${id}, ${i + 1})">✩</a>`
+        }
+    }
+    return stars + `</div>`;
+}
+
 export function render(movies, user) {
   return `
 <!DOCTYPE html>
@@ -20,6 +32,7 @@ Angemeldet als: ${user.firstname} ${
         <tr>
           <td>${movie.id}</td>
           <td>${movie.title}</td>
+          <td>${createStars(movie.id, 3)}</td>
           <td><a href="/movie/delete/${movie.id}">löschen</a></td>
           <td><a href="/movie/form/${movie.id}">bearbeiten</a></td> 
         </tr>`
@@ -28,6 +41,14 @@ Angemeldet als: ${user.firstname} ${
     </tbody>
   </table>
   <a href="/movie/form">neu</a>
+  <script>
+  const submitRating = (id, rating) => {
+      fetch('/movie/rating/' + id, { 
+        method: 'POST',
+        body: JSON.stringify({rating: rating})
+    })
+  }
+</script>
 </body>
 </html>
   `;
