@@ -1,4 +1,4 @@
-import { getAll, remove, get, save } from './model.js';
+import {getAll, remove, get, save, saveRating} from './model.js';
 import { render } from './view.js';
 import { render as form } from './form.js';
 
@@ -38,7 +38,8 @@ export async function saveAction(request, response) {
 }
 
 export async function rateAction(request, response) {
-  request.redirect(request.baseUrl)
+  await saveRating(request.params.id, request.body.amount);
+  request.redirect(request.baseUrl);
 }
 
 export async function ratingsAction(request, response) {

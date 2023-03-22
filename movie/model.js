@@ -57,3 +57,8 @@ export function save(movie, userId) {
   }
   return insert(movie, userId);
 }
+
+export async function saveRating(movieId, movieRating) {
+  const query = 'INSERT INTO Ratings(movie, rating) VALUES (?, ?)';
+  await connection.query(query, [movieId, movieRating]);
+}
