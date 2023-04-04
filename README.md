@@ -3,10 +3,10 @@
 Erledigte Aufgaben
 -[x] Aufgabe 1
 -[x] Aufgabe 2
--[ ] Aufgabe 3
--[ ] Aufgabe 4
--[ ] Aufgabe 5
+-[x] Aufgabe 3
+-[x] Aufgabe 4
+-[x] Aufgabe 5
 -[x] Aufgabe 6
--[ ] Aufgabe 7
+-[x] Aufgabe 7
 -[ ] Aufgabe 8
 -[x] Aufgabe 9
