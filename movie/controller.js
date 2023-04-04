@@ -39,10 +39,6 @@ export async function saveAction(request, response) {
 }
 
 export async function rateAction(request, response) {
-  await saveRating(request.params.id, request.body.amount);
-  request.redirect(request.baseUrl);
-}
-
-export async function ratingsAction(request, response) {
-  response.send();
+  await saveRating(request.params.id, request.body.rating, request.user.id);
+  response.redirect(request.baseUrl);
 }

@@ -58,20 +58,36 @@ export function save(movie, userId) {
   return insert(movie, userId);
 }
 
-export async function saveRating(movieId, movieRating) {
-  const query = 'INSERT INTO Ratings(movie, rating) VALUES (?, ?)';
-  await connection.query(query, [movieId, movieRating]);
+export async function saveRating(movieId, movieRating, userId) {
+  if (ratingForMovieExists(userId, movieId)) {
+    await removeRating(userId, movieId);
+  }
+  const query = 'INSERT INTO Ratings(movie, rating, user) VALUES (?, ?, ?)';
+  await connection.query(query, [movieId, movieRating, userId]);
 }
 
 export async function getAllRatings(userId) {
   const query = `SELECT * FROM Ratings WHERE user = ?`;
-  return [await connection.query(query, [userId])];
+  const [data] =  await connection.query(query, [userId]);
+  return data;
+}
+
+async function ratingForMovieExists(userId, movieId) {
+  const query = `SELECT * FROM Ratings WHERE user = ? and movie = ?`;
+  const [data] = await connection.query(query, [userId, movieId]);
+  return data.length > 0;
+}
+
+async function removeRating(userId, movieId) {
+  const query = `DELETE FROM Ratings WHERE user = ? and movie = ?`;
+  await connection.query(query, [userId, movieId])
+  return;
 }
 
 export async function getRatingAverages(movies) {
   const averages = [];
   for (let movie of movies) {
-    const average = await getAverageForMovie(movie.id)
+    const average = (await getAverageForMovie(movie.id))[0]
     if (average.average) {
       averages.push({movie: movie.id, average: average.average})
     }
@@ -80,6 +96,7 @@ export async function getRatingAverages(movies) {
 }
 
 async function getAverageForMovie(movieId) {
-  const query = 'SELECT AVG(rating) FROM Ratings WHERE movie = ?'
-  return [await connection.query(query, [movieId])];
+  const query = 'SELECT TRUNCATE(AVG(rating), 0) AS average FROM Ratings WHERE movie = ?'
+  const [data] = await connection.query(query, [movieId]);
+  return data;
 }

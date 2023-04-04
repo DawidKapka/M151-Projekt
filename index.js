@@ -5,6 +5,7 @@ import { fileURLToPath } from 'url';
 import { router as movieRouter } from './movie/index.js';
 import auth from './auth.js';
 import { ensureLoggedIn } from 'connect-ensure-login';
+import bodyParser from "body-parser";
 
 const app = express();
 const PORT = 8080;
@@ -13,7 +14,8 @@ app.use(express.static(`${dirname(fileURLToPath(import.meta.url))}/public`));
 
 app.use(morgan('common', { immediate: true }));
 
-app.use(express.urlencoded({ extended: false }));
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json());
 
 auth(app);
 

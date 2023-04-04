@@ -53,8 +53,11 @@ Angemeldet als: ${user.firstname} ${
   const submitRating = (id, rating) => {
       fetch('/movie/rating/' + id, { 
         method: 'POST',
-        body: JSON.stringify({rating: rating})
-    })
+        headers: {
+        "Content-Type": "application/json",
+        },
+        body: JSON.stringify({rating})
+    }).then(() => window.location.reload())
   }
 </script>
 </body>
