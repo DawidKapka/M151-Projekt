@@ -58,12 +58,12 @@ export function save(movie, userId) {
   return insert(movie, userId);
 }
 
-export async function saveRating(movieId, movieRating, userId) {
-  if (ratingForMovieExists(userId, movieId)) {
-    await removeRating(userId, movieId);
+export async function saveRating(rating) {
+  if (ratingForMovieExists(rating.user, rating.movie)) {
+    await removeRating(rating.user, rating.movie);
   }
   const query = 'INSERT INTO Ratings(movie, rating, user) VALUES (?, ?, ?)';
-  await connection.query(query, [movieId, movieRating, userId]);
+  await connection.query(query, [rating.movie, rating.rating, rating.user]);
 }
 
 export async function getAllRatings(userId) {
