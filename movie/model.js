@@ -96,7 +96,7 @@ export async function getRatingAverages(movies) {
 }
 
 async function getAverageForMovie(movieId) {
-  const query = 'SELECT TRUNCATE(AVG(rating), 0) AS average FROM Ratings WHERE movie = ?'
+  const query = 'SELECT TRUNCATE(AVG(rating), 1) AS average FROM Ratings WHERE movie = ?'
   const [data] = await connection.query(query, [movieId]);
   return data;
 }
