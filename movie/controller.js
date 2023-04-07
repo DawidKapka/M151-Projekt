@@ -21,7 +21,7 @@ export async function formAction(request, response) {
   console.log(request.params.id);
 
   if (request.params.id) {
-    movie = await get(parseInt(request.params.id, 10));
+    movie = await get(request.params.id, request.user.id);
   }
   const body = form(movie);
   response.send(body);
